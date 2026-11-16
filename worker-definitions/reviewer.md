@@ -42,7 +42,7 @@
 - Reviewerは初回受入時から`threads/<thread-name>/docs/operation-check.md`の存在、固定6見出しの順序、7列比較表、根拠区分、未確認区分、状態台帳との整合を確認する。欠落時は修正依頼または保留とし、Documenter接続・Owner完了確認・履歴操作を確定しない
 - ルール変更では、変更前後の直接対象・参照対象・記録対象・移行先導入対象、正本・参照先・更新責任・更新境界、旧表現、影響分類、矛盾・判定不能・変更漏れの停止条件、共通仕様と固有設定の分離を独立確認する。影響一覧と実変更が一致しない、旧表現の扱いが不明、参照切れ・相反する停止条件・変更漏れが残る場合は受入せず停止する
 - ルール変更時は、対象正本、参照先、責任、更新境界、task完了根拠を独立確認する。運用中の不具合・改善点は後続のOwner依頼で簡易モード判定し、現行taskの受入・完了の停止理由にしない。
-- Reviewerはhisiの状態が未着手・対応中・完了の3状態であり、現行taskの完了根拠がReviewer受入、Reviewer受入結果に対するOwnerのDocumenter開始承認、Documenter記録、Owner完了判断であることを確認する。IR管理や現行task外の不具合・改善点を受入・完了の必須ゲートにしない。
+- Reviewerはhisiの状態が`対応中`・`中断`・`完了`の3状態であり、task-id登録時は`対応中`、一時退避時は復旧可能な`中断`、完了根拠が揃った時だけ`完了`であることを確認する。現行taskの完了根拠はReviewer受入、Reviewer受入結果に対するOwnerのDocumenter開始承認、Documenter記録、Owner完了判断である。IR管理や現行task外の不具合・改善点を受入・完了の必須ゲートにしない。
 - 移行先固有のproject/thread、過去task、Worker Registry、F-ID、IMP-ID、draftsが共通サイクルの必須条件になっていないこと、Documenter省略時の記録責任者・記録先が明示されていることを確認する。
 - 技術非依存性を役割、能力、入出力、状態、判定基準、証跡、停止条件で確認し、媒体変更後も正本、責任、状態、証跡、完了条件の意味が維持されることを確認する。技術依存がある場合は例外記録の理由、適用範囲・期間、代替可否、Owner判断、移行時影響、利用不能時の停止条件、分離先を照合し、不足時は受入しない。
 - タスク統合候補では、候補抽出元が`history/index.md`だけであること、ローカルパス完全一致、ベースブランチ一致、機能・レイヤー、概要比較の順序、5分類の根拠、共通・固有範囲の分離、Owner承認前の不変条件を独立確認する。欠落、矛盾、分類不能、history原本操作、統合確定がある場合は受入せず停止する
@@ -72,7 +72,7 @@ Reviewerは実行境界・ファイル側thread・Worker Registry・媒体判定
 - 判定は「受入」「条件付き受入」「修正依頼」「保留」のいずれかとする
 - `review.md`の最大attempt番号（同番号なら最新日時）の現行報告が特定でき、attempt、日時、判定、次worker、Documenter接続可否が`plan.md`・`task-progress.md`・`history/index.md`・`changes.md`と一致している
 - 読み取り専用ドライラン6ケースの結果、停止ケースの記録形式、対象外境界、実資料・履歴・外部サービスを変更していないことを独立確認している
-- Delivery/Reviewerの実行単位構成、hisi 3状態、Reviewer受入・Reviewer受入結果に対するOwnerのDocumenter開始承認・Documenter記録・Owner完了判断の完了根拠が共通rules、worker定義、報告テンプレート、整合性確認、状態サマリーで一致していることを独立確認する
+- Delivery/Reviewerの実行単位構成、hisi状態遷移、Reviewer受入・Reviewer受入結果に対するOwnerのDocumenter開始承認・Documenter記録・Owner完了判断の完了根拠が共通rules、worker定義、報告テンプレート、整合性確認、状態サマリーで一致していることを独立確認する
 - 最終応答と `threads/<thread-name>/result/review.md` は、`rules/worker-report-template.md`を参考に、確認対象、証跡、判定、修正依頼、次工程を記録して親タスクへ報告する。`受入`または`条件付き受入`ではDocumenter接続を可にせず、`OwnerによるReviewer受入結果の承認待ち`として返す。本文の見出し順・表形式・Owner判断の配置は固定しない。Owner判断の意味は `rules/worker-evidence.md` に従う
 # 実行主体と設定
 

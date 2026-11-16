@@ -143,7 +143,7 @@ Ownerが新規taskの開始を明示した場合、その指示を現行task終�
 
 発火後は、現行taskの結果資料、Owner判断、履歴manifest、`history/index.md`を再確認する。運用中に発生した不具合・改善点は現行taskへ追加せず、同一taskの終了を阻害しない。
 
-IRの状態更新はWorkflow Coordinatorだけが行う。taskの状態はhisiの`未着手`、`対応中`、`完了`を用い、完了はReviewer受入、Reviewer受入結果に対するOwnerのDocumenter開始承認、Documenter記録、Owner完了判断が揃った場合に確定する。
+IRの状態更新はWorkflow Coordinatorだけが行う。taskの状態はhisiの`対応中`、`中断`、`完了`を用い、task-id登録時点で`対応中`、一時退避後は`中断`とする。完了はReviewer受入、Reviewer受入結果に対するOwnerのDocumenter開始承認、Documenter記録、Owner完了判断が揃った場合に確定する。
 
 サマリーと詳細の不一致、同一IMPの競合、正本・証跡・更新責任者の不明、`適用外`・承認範囲外の是正は、改善記録の整合性問題としてOwnerへ返す。これらは現行taskの完了を自動的に停止しない。`対応完了`の確定にはOwner完了確認を要する。自動更新の許可はタスク終了、履歴退避、次タスク切替、IMP採番の自動許可を意味しない。
 
@@ -246,14 +246,14 @@ history/
 
 ## 履歴からの復旧
 
-1. Ownerが復旧対象のtask-idを指定し、`history/<task-id>/manifest.md`のtask-id、タスク名、目的、元実行コンテキストIDまたは代替境界証跡、元スレッド名、退避日時、状態、対象資料を確認する。`task-legacy-history-backup`は復旧対象外とし、欠落・不一致時は停止する。
+1. Ownerが復旧対象のtask-idを指定し、`history/index.md`の現在状態が`中断`であること、および`history/<task-id>/manifest.md`のtask-id、タスク名、目的、元実行コンテキストIDまたは代替境界証跡、元スレッド名、退避日時、退避時状態、対象資料を確認する。index状態は現行状態の正本、manifest状態は退避時点の記録として照合する。`完了`・`対応中`・`task-legacy-history-backup`はこの経路で復旧せず、欠落・不一致時は停止する。
 2. 履歴の`docs/`と`result/`を読み取り、復旧対象の断面、未解決事項、競合を確認する。履歴自体は変更しない。
 3. Ownerの復旧方式指定がない場合は、選択したバックエンドの新規実行コンテキストと新規スレッドを作成する。「この実行コンテキストで」などの明示指示がある場合だけ、現在の作業スレッドを先に新しい履歴へ退避・アーカイブし、同じ実行コンテキスト内に新規復旧スレッドを作成する。既存スレッドを上書き・再利用しない。
-4. 復旧先の親Coordinatorコンテキスト、worker実行単位の親子関係、実行ディレクトリ、対象リポジトリ、結果資料の対応を確認し、元taskとの対応を`manifest.md`へ追記する。選択バックエンドの正規経路外の実行単位を復旧先にしない。対象リポジトリ不一致時は停止する。
+4. 復旧先の親Coordinatorコンテキスト、worker実行単位の親子関係、実行ディレクトリ、対象リポジトリ、結果資料の対応を確認し、元taskとの対応を復旧先の`docs/task-progress.md`へ記録する。復旧元manifestは変更しない。選択バックエンドの正規経路外の実行単位を復旧先にしない。対象リポジトリ不一致時は停止する。
 5. Ownerの明示的な復旧承認後、復旧先の初期ファイルや未保存変更を上書きせず、競合がない場合だけ履歴の`docs/`と`result/`を復旧先へコピーする。`history/`自身は復旧対象に含めない。
 6. 復旧先でtask-id、親Coordinatorコンテキスト、実行単位ID、実行ディレクトリ、結果ファイル、Worker Registry、`docs/task-progress.md`を確認し、復旧元task-id、復旧日時、manifest確認、docs/result反映、復旧判定、未確認事項を復旧先の`docs/task-progress.md`へ簡略記録する。
-7. 復旧先の読み取り確認が成功し、Ownerが履歴消費を承認した場合だけ、復旧元`history/<task-id>/`と`history/index.md`の該当行を削除する。manifest自体を復旧先へ通常資料としてコピーしない。
-8. 復旧失敗、部分成功、不一致、復旧先の確認不能、Owner承認不明の場合は、復旧元manifest、history、index行を削除せず停止する。
+7. 復旧先の読み取り確認が成功した後も、復旧元`history/<task-id>/`、manifest、`history/index.md`の3行を保持する。中断taskの復旧では、3行の状態を`対応中`へ更新する。manifest自体を復旧先へ通常資料としてコピーせず、復旧元への参照と復旧記録を復旧先`docs/task-progress.md`に残す。復旧は履歴の消費・削除ではない。
+8. 復旧失敗、部分成功、不一致、復旧先の確認不能、Owner承認不明の場合は、復旧元manifest、history、index行を変更せず停止する。状態更新の途中失敗も部分成功として扱い、3表の整合を回復するまで次工程へ進まない。
 
 履歴退避・復旧で必要なworkerやスレッドの状態変更はOwnerの明示操作に限る。自動アーカイブ、削除、復元、移動、worker置換を行わない。
 

@@ -27,7 +27,7 @@
 - IRのサマリー・詳細構成、IR-ID昇順ソート、両表の集合一致は `rules/improvement-reminder-operation.md` を参照する
 - 共通ルール全体の冪等性、再実行時の重複防止、実体値の恒久化禁止は `rules/idempotency.md` を参照する。IR固有の補足は `rules/improvement-reminder-operation.md` を参照する
 - 実装媒体をルール・プロンプト・Markdownに限定する場合は `rules/implementation-medium.md` を参照する
-- 新規運用開始時のローカル`history/`と`history/index.md`の初期化は `rules/history-initialization.md` を参照する
+- 新規運用開始時のローカル`history/`初期化、hisi状態（`対応中`・`中断`・`完了`）、中断taskの履歴復旧は `rules/history-initialization.md` を正本とし、復旧手順は `rules/thread-operation.md` を参照する
 - 人間向け資料、`owner-judge.md`、`task-progress.md`、`issue-memo.md`の共通形式・責務・作成・復元・移行手順は `rules/human-facing-documentation.md` を参照する
 - 用語・標準的な意味・取り違え防止の正本は `rules/glossary.md` とし、用語そのものを対応キーとして参照する
 - 次タスク以降の進行中タスク台帳は `threads/<thread-name>/docs/task-progress.md` を正本とし、worker固有結果は `threads/<thread-name>/result/`へ記録する。配置・履歴境界は `rules/thread-operation.md`を参照する
