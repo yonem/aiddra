@@ -17,6 +17,7 @@
 - 適用範囲が明記されていないルールは、全worker・全プロジェクトへ適用する
 - 新しい共通ルールを追加するとき、worker定義の入力欄を更新する必要はない
 - 計画関連Owner向け回答の対象・実行環境・ブランチ必須情報は `rules/plan-approval-required-info.md` を参照する
+- 調査・計画における一次情報の確認、出典記録、取得不能・不一致時の扱いは `rules/worker-evidence.md` と `worker-definitions/planner.md` を参照する
 - Plannerへ指示する前の要件定義提案フォーマットと接続ゲートは `rules/requirement-definition-format.md` を参照する
 - imの入口テンプレート、必須10観点、質問ごとの更新記録、Planner接続前チェックは `rules/im-template.md` を参照する
 - 全依頼の軽量入口判定、簡易対応、標準タスクへの自動昇格、軽量状態応答は `rules/quick-operation.md` を参照する
